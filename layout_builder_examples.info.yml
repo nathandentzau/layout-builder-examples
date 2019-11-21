@@ -1,0 +1,8 @@
+name: Layout Builder Examples
+description: Examples to override the functionality of Layout Builder.
+type: module
+core: 8.x
+package: Custom
+
+dependencies:
+  - drupal:layout_builder
