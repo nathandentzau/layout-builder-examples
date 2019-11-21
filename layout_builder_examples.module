@@ -7,6 +7,8 @@
 
 declare(strict_types = 1);
 
+use Drupal\Core\Form\FormStateInterface;
+
 /**
  * Implements hook_plugin_filter_TYPE__CONSUMER_alter().
  */

@@ -1,0 +1,12 @@
+layout_builder_examples.one_column:
+  class: Drupal\layout_builder_examples\Plugin\Layout\OneColumnExampleLayout
+  label: One Column
+  path: layouts/one-column
+  template: one-column
+  category: 'Columns: 1'
+  default_region: content
+  icon_map:
+    - [content]
+  regions:
+    content:
+      label: Content

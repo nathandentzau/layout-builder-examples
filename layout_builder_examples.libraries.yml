@@ -1,0 +1,4 @@
+layout-two-column:
+  css:
+    theme:
+      layouts/two-column/two-column.css: {}
