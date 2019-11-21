@@ -7,6 +7,8 @@
 
 declare(strict_types = 1);
 
+use Drupal\Core\Form\FormStateInterface;
+
 /**
  * Implements hook_plugin_filter_TYPE__CONSUMER_alter().
  */
@@ -44,7 +46,23 @@ function layout_builder_examples_plugin_filter_block__layout_builder_alter(array
  * Implements hook_plugin_filter_TYPE__CONSUMER_alter().
  */
 function layout_builder_examples_plugin_filter_layout__layout_builder_alter(array &$definitions): void {
-  $definitions = array_filter($definitions, function (string $plugin_id): bool {
-    return (bool) preg_match('/^layout_builder_examples/', $plugin_id);
-  }, ARRAY_FILTER_USE_KEY);
+  // $definitions = array_filter($definitions, function (string $plugin_id): bool {
+  //   return (bool) preg_match('/^layout_builder_examples/', $plugin_id);
+  // }, ARRAY_FILTER_USE_KEY);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function layout_builder_examples_form_layout_builder_add_block_alter(array &$form, FormStateInterface $form_state): void {
+  // Make the block title a hidden element and generate a UUID for the block
+  // title if one is not already provided.
+  $form['settings']['label']['#type'] = 'hidden';
+  $uuid = Drupal::service('uuid')->generate();
+  $label_default_value = $form['settings']['label']['#default_value'] ?: $uuid;
+  $form['settings']['label']['#default_value'] = $label_default_value;
+
+  // Make the label display checkbox hidden and always set the value to false.
+  $form['settings']['label_display']['#type'] = 'hidden';
+  $form['settings']['label_display']['#default_value'] = FALSE;
 }
