@@ -7,6 +7,9 @@
 
 declare(strict_types = 1);
 
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\layout_builder_examples\Element\LayoutBuilder;
+
 /**
  * Implements hook_plugin_filter_TYPE__CONSUMER_alter().
  */
@@ -63,4 +66,25 @@ function layout_builder_examples_form_layout_builder_add_block_alter(array &$for
   // Make the label display checkbox hidden and always set the value to false.
   $form['settings']['label_display']['#type'] = 'hidden';
   $form['settings']['label_display']['#default_value'] = FALSE;
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_ID_form_alter().
+ */
+function layout_builder_examples_field_widget_layout_builder_widget_form_alter(array &$element): void {
+  $element['#type'] = 'modal_layout_builder';
+}
+
+/**
+ * Implements hook_contextual_links_alter().
+ */
+function layout_builder_examples_contextual_links_alter(array &$links, string $group, array $route_parameters): void {
+  if ($group !== 'layout_builder_block') {
+    return;
+  }
+
+  foreach ($links as &$link) {
+    $link['localized_options']['attributes']['data-dialog-type'] = 'modal';
+    unset($link['localized_options']['attributes']['data-dialog-renderer']);
+  }
 }

@@ -1,0 +1,5 @@
+services:
+  layout_builder_examples.route_subscriber:
+    class: Drupal\layout_builder_examples\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
