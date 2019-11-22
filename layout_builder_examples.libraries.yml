@@ -2,3 +2,10 @@ layout-two-column:
   css:
     theme:
       layouts/two-column/two-column.css: {}
+
+accordion:
+  js:
+    layout_builder_examples.accordion.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
