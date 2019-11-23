@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\layout_builder_examples\Element;
 
-use Drupal\Core\Url;
 use Drupal\layout_builder\Element\LayoutBuilder;
 use Drupal\layout_builder\SectionStorageInterface;
 
@@ -22,12 +21,10 @@ class ModalLayoutBuilder extends LayoutBuilder {
     $build = parent::buildAddSectionLink($section_storage, $delta);
 
     $url = $build['link']['#url'];
-    if ($url instanceof Url) {
-      $options = $url->getOptions();
-      $options['attributes']['data-dialog-type'] = 'modal';
-      unset($options['attributes']['data-dialog-renderer']);
-      $url->setOptions($options);
-    }
+    $options = $url->getOptions();
+    $options['attributes']['data-dialog-type'] = 'modal';
+    unset($options['attributes']['data-dialog-renderer']);
+    $url->setOptions($options);
 
     return $build;
   }
@@ -47,8 +44,12 @@ class ModalLayoutBuilder extends LayoutBuilder {
     unset($build['configure']['#attributes']['data-dialog-renderer']);
 
     // Use the modal for adding a block to a section.
-    $url = $build['layout-builder__section']['content']['layout_builder_add_block']['link']['#url'] ?? NULL;
-    if ($url instanceof Url) {
+    foreach ($build['layout-builder__section'] as &$section) {
+      if (!is_array($section) || empty($section['layout_builder_add_block'])) {
+        continue;
+      }
+
+      $url = $section['layout_builder_add_block']['link']['#url'] ?? NULL;
       $options = $url->getOptions();
       $options['attributes']['data-dialog-type'] = 'modal';
       unset($options['attributes']['data-dialog-renderer']);
